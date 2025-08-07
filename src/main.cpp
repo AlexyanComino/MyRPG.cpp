@@ -1,24 +1,17 @@
-#include <SFML/Graphics.hpp>
 
-int main()
+#include "Core.hpp"
+
+#include <iostream>
+
+int main(void)
 {
-    sf::RenderWindow window(sf::VideoMode({1280, 720}), "CMake SFML Project");
-    window.setFramerateLimit(144);
+    MyRpg::Core core;
 
-    sf::RectangleShape rectangle;
-    rectangle.setSize({100.f, 100.f});
-    rectangle.setFillColor(sf::Color::Red);
-    rectangle.setPosition({960.f, 540.f});
-
-    while (window.isOpen()) {
-        window.clear();
-        window.draw(rectangle);
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.display();
+    while (core.windowIsOpen()) {
+        core.handleEvents();
+        core.update();
+        core.display();
     }
+    core.destroy();
+    return 0;
 }
