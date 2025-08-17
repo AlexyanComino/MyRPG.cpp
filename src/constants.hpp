@@ -1,0 +1,141 @@
+/*
+** EPITECH PROJECT, 2025
+** MyRPG.cpp
+** File description:
+** constants
+*/
+
+#ifndef CONSTANTS_HPP_
+#define CONSTANTS_HPP_
+
+#define NUM_POINTS 30
+
+#define WIDTH 1280
+#define HEIGHT 720
+
+#define CHOICE_WIDTH 518
+#define CHOICE_HEIGHT 101
+
+#define BUTTON_WIDTH 640
+#define BUTTON_HEIGHT 338
+
+#define WARRIOR_WIDTH 192
+#define DEAD_WIDTH 128
+#define WARRIOR_OFFSET WARRIOR_WIDTH * 5
+#define PLAYER_SPEED 300
+
+// Warrior
+#define WARRIOR_WIDTH 192
+#define WARRIOR_OFFSET WARRIOR_WIDTH * 5
+#define DEAD_WIDTH 128
+#define MIN_WARRIOR_LENGTH 90
+#define WARRIOR_MAX_DETECTION_RADIUS 600
+#define WARRIOR_INTER_RADIUS 450
+#define WARRIOR_EXCLAM_RADIUS 300
+
+// Pawn
+#define PAWN_WIDTH 1152 / 6
+#define PAWN_OFFSET PAWN_WIDTH * 5
+#define MIN_PAWN_LENGTH 80
+
+
+// Torch
+#define TORCH_WIDTH 192
+#define TORCH_IDLE_OFFSET TORCH_WIDTH * 6
+#define TORCH_OFFSET TORCH_WIDTH * 5
+#define MIN_TORCH_LENGTH 90
+
+// Tnt
+#define TNT_WIDTH 192
+#define TNT_OFFSET TORCH_WIDTH * 5
+#define TNT_OFFSET_ATTACK TORCH_WIDTH * 6
+#define MIN_TNT_LENGTH 400
+#define MAX_TNT_LENGTH 200
+
+#define DYNA_WIDTH 64
+#define DYNA_OFFSET DYNA_WIDTH * 5
+
+#define EXPLO_WIDTH 192
+#define EXPLO_OFFSET EXPLO_WIDTH * 8
+
+#define CIBLE_WIDTH 300
+
+// Archer
+#define ARCHER_WIDTH 192
+#define ARCHER_OFFSET ARCHER_WIDTH * 5
+#define ARCHER_OFFSET_ATTACK ARCHER_WIDTH * 7
+
+#define ARROW_WIDTH 64
+#define ARROW_COOLDOWN 10
+#define ARROW_HIT_ENTITY_COOLDOWN 5
+
+#define MIN_ARCHER_LENGTH 400
+
+// Marks
+#define EXCLAM_WIDTH 91
+#define EXCLAM_HEIGHT 147
+#define INTER_WIDTH 1015 / 14
+#define INTER_HEIGHT 399 / 3
+#define EXCLAM_COOLDOWN 0.5
+#define INTER_INTERVAL 3.0
+#define INTER_COOLDOWN 1.5
+
+#define STUN_WIDTH 150
+#define STUN_HEIGHT 84.5609756098
+
+#define GOB_EXCLAM_WIDTH 1788 / 3
+#define GOB_EXCLAM_HEIGHT 3696 / 11
+
+#define FIRE_WIDTH 128
+#define POISON_WIDTH 200
+//
+
+// Cooldowns
+#define DEAD_COOLDOWN 10.0
+
+// #define BASE_COLOR sfColor_fromRGB(146, 255, 250)
+
+// #define DAMAGE_COLOR_PLAYER sfWhite
+// #define DAMAGE_COLOR_BLUE sfColor_fromRGB(28, 86, 255)
+// #define DAMAGE_COLOR_RED sfColor_fromRGB(255, 88, 65)
+// #define DAMAGE_COLOR_YELLOW sfColor_fromRGB(255, 215, 66)
+// #define DAMAGE_COLOR_PURPLE sfColor_fromRGB(183, 133, 255)
+// #define DAMAGE_COLOR_GREEN sfColor_fromRGB(53, 255, 53)
+// #define DAMAGE_COLOR_BAM sfWhite
+// #define DAMAGE_COLOR_CRITICAL sfColor_fromRGB(255, 61, 30)
+// #define DAMAGE_COLOR_FIRE sfColor_fromRGB(255, 157, 59)
+// #define DAMAGE_COLOR_POISON sfColor_fromRGB(94, 209, 43)
+
+#define CRIT_WIDTH 215
+#define BAM_WIDTH 160
+
+#define TILE_SCALE 2.1
+#define TILE_SIZE 32 * TILE_SCALE
+
+// Items
+#define ITEM_SIZE 128
+
+// Minimap
+#define MINIMAP_ARROW_WIDTH 373
+
+#define MINIMAP_BACK_SIZE 224
+
+// Map
+#define MAP_HEIGHT 13301
+#define MAP_WIDTH 13971
+#define WATER_ANIM_WIDTH 928
+#define WATER_ANIM_HEIGHT 608
+#define WATER_ANIM_OFFSET 7424 / 7
+
+// Chests
+#define CHEST_WIDTH 192
+
+// Loading
+#define DOTS_WIDTH 400
+#define DOTS_HEIGHT 300
+#define TRANSI_WIDTH 1000
+#define TRANSI_HEIGHT 563
+
+#define RESPAWN_TIME 180
+
+#endif /* !CONSTANTS_HPP_ */

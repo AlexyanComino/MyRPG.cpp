@@ -8,7 +8,7 @@
 #include "SfmlWindow.hpp"
 
 namespace MyRpg {
-    SfmlWindow::SfmlWindow() : AWindow(1280, 720, 60, 1, 2),
+    SfmlWindow::SfmlWindow() : AWindow(WIDTH, HEIGHT, 60, 1, 2),
         _videoMode(_width, _height, 32),
         _window(_videoMode, "The Blade of Eternity", sf::Style::Default),
         _mousePos(0, 0), _clock(), _view(sf::FloatRect(0, 0, static_cast<float>(_width), static_cast<float>(_height))),
@@ -33,9 +33,15 @@ namespace MyRpg {
         }
     }
 
-    void SfmlWindow::draw(const sf::Sprite& sprite)
+    void SfmlWindow::setViewCenter(float x, float y)
     {
-        _window.draw(sprite);
+        _view.setCenter(x, y);
+        // _window.setView(_view);
+    }
+
+    void SfmlWindow::draw(const sf::Drawable& object)
+    {
+        _window.draw(object);
     }
 
     bool SfmlWindow::pollEvent(sf::Event& event)

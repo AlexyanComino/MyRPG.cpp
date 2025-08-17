@@ -3,6 +3,7 @@
 #define SFMLWINDOW_HPP_
 
 #include "AWindow.hpp"
+#include "constants.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -12,16 +13,20 @@ namespace MyRpg {
             SfmlWindow();
             ~SfmlWindow();
 
+            sf::RenderWindow& getWindow() override { return _window; };
+
             bool isOpen() override { return _window.isOpen(); };
             void resetView() override;
+            void setViewCenter(float x, float y) override;
 
             void clear() override { _window.clear(); };
             void display() override { _window.display(); };
             void close() override { _window.close(); };
 
-            void draw() override { _window.draw(sf::Sprite()); }; // Default draw method, can be overridden
-            void draw(const sf::Sprite& sprite) override;
+            void draw(const sf::Drawable& sprite) override;
             bool pollEvent(sf::Event& event) override;
+
+            sf::Clock& getClock() { return _clock; };
 
         protected:
         private:

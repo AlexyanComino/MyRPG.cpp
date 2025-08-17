@@ -26,6 +26,10 @@ add_executable(main
     src/Core.cpp
     src/SfmlWindow.cpp
     src/Map.cpp
+    src/AEntity.cpp
+    src/Warrior.cpp
+    src/Utils.cpp
+    src/Collisions.cpp
 )
 
 target_compile_features(main PRIVATE cxx_std_20)
