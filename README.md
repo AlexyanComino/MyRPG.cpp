@@ -2,7 +2,7 @@
 
 [![WIP](https://img.shields.io/badge/status-work--in--progress-yellow)]()  
 [![Language](https://img.shields.io/badge/language-C++-blue)]()  
-[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey)]()  
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20Mac-lightgrey)]()  
 
 ✨ **MyRPG.cpp** is the modern C++ remake of [My RPG](https://github.com/AlexyanComino/my_rpg).  
 It aims to bring a more robust, scalable, and optimized architecture while keeping the original spirit of a **2D medieval RPG**.
@@ -18,7 +18,7 @@ A lot of features from the original version are not yet implemented, but the goa
 
 ## 🎮 Planned Features
 
-✅ Windows/Linux/Mac support
+✅ Windows/Linux/Mac support  
 ✅ Improved architecture leveraging **C++ OOP**  
 ✅ **2D medieval RPG gameplay** with story, quests, and exploration  
 ✅ **Combat system** with stealth mechanics and bosses  
