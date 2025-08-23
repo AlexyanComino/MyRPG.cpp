@@ -1,10 +1,6 @@
 
 #include "Collisions.hpp"
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
 namespace MyRpg {
     Collisions::Collisions(const std::string& collisionsFilePath) :
         rect(sf::IntRect(0, 0, static_cast<int>(TILE_SIZE), static_cast<int>(TILE_SIZE))), _size(0),
@@ -43,8 +39,8 @@ namespace MyRpg {
             int xInt = 0, yInt = 0;
             iss >> xInt >> yInt;
 
-            float x = static_cast<float>(xInt * TILE_SCALE + TILE_SIZE * 12 - TILE_SIZE / 2);
-            float y = static_cast<float>(yInt * TILE_SCALE + TILE_SIZE / 2);
+            float x = xInt * TILE_SCALE + TILE_SIZE * 12 - TILE_SIZE / 2;
+            float y = yInt * TILE_SCALE + TILE_SIZE / 2;
 
             column = static_cast<std::size_t>(x) / WIDTH;
             row = static_cast<std::size_t>(y) / HEIGHT;

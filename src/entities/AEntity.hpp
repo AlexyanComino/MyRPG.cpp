@@ -5,7 +5,7 @@
 #include <string>
 
 #include "IEntity.hpp"
-#include "Utils.hpp"
+#include "Animation.hpp"
 #include "Collisions.hpp"
 
 namespace MyRpg {

@@ -17,10 +17,6 @@ namespace MyRpg {
         _playerIndex = 0;
     }
 
-    Core::~Core()
-    {
-    }
-
     void Core::handleEvents()
     {
         _window->setDt(_window->getClock().getElapsedTime().asSeconds());
@@ -100,11 +96,6 @@ namespace MyRpg {
         displayCollisions();
 
         _window->display();
-    }
-
-    void Core::destroy()
-    {
-
     }
 
     bool Core::intRectIsInView(const sf::IntRect& rect)

@@ -1,16 +1,7 @@
 
-#include "Utils.hpp"
-
-#include <iostream>
+#include "Animation.hpp"
 
 namespace MyRpg {
-
-    void MyClock::update()
-    {
-        _time = _clock.getElapsedTime();
-        _seconds = static_cast<float>(_time.asMicroseconds() / 1000000.0);
-    }
-
     Animation::Animation(const std::string& texturePath, const int width, const int height)
     {
         if (!_texture.loadFromFile(texturePath))
@@ -21,7 +12,7 @@ namespace MyRpg {
         _sprite.setTextureRect(this->rect);
         _sprite.setOrigin(sf::Vector2f(static_cast<float>(width) / 2.0f, static_cast<float>(height) / 2.0f));
 
-        _clock = MyClock();
+        _clock = Clock();
     }
 
     void Animation::animateLine(int offset, int width, float time)

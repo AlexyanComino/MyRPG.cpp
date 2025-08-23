@@ -81,7 +81,7 @@
 #define INTER_COOLDOWN 1.5
 
 #define STUN_WIDTH 150
-#define STUN_HEIGHT 84.5609756098
+#define STUN_HEIGHT 84.5609756098f
 
 #define GOB_EXCLAM_WIDTH 1788 / 3
 #define GOB_EXCLAM_HEIGHT 3696 / 11
@@ -109,7 +109,7 @@
 #define CRIT_WIDTH 215
 #define BAM_WIDTH 160
 
-#define TILE_SCALE 2.1
+#define TILE_SCALE 2.1f
 #define TILE_SIZE 32 * TILE_SCALE
 
 // Items

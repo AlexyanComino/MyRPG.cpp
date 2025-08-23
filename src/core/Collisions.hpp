@@ -2,15 +2,15 @@
 #ifndef COLLISIONS_HPP_
 #define COLLISIONS_HPP_
 
+#include "constants.hpp"
+#include "IEntity.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <fstream>
 #include <string>
-#include <cstring>
-#include <cstdlib>
-
-#include "constants.hpp"
-#include "IEntity.hpp"
+#include <iostream>
+#include <sstream>
 
 namespace MyRpg {
 

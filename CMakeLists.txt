@@ -21,21 +21,30 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main
+add_executable(MyRPG
     src/main.cpp
-    src/Core.cpp
-    src/SfmlWindow.cpp
-    src/Map.cpp
-    src/AEntity.cpp
-    src/Warrior.cpp
-    src/Utils.cpp
-    src/Collisions.cpp
+    src/core/Core.cpp
+    src/core/window/SfmlWindow.cpp
+    src/core/Map.cpp
+    src/core/Collisions.cpp
+    src/entities/AEntity.cpp
+    src/entities/Warrior.cpp
+    src/common/Animation.cpp
+    src/common/Clock.cpp
 )
 
-target_compile_features(main PRIVATE cxx_std_20)
-target_link_libraries(main PRIVATE sfml-graphics sfml-window sfml-system)
+target_include_directories(MyRPG PRIVATE
+    src/
+    src/core/
+    src/core/window/
+    src/entities/
+    src/common/
+)
 
-set_target_properties(main PROPERTIES
+target_compile_features(MyRPG PRIVATE cxx_std_20)
+target_link_libraries(MyRPG PRIVATE sfml-graphics sfml-window sfml-system)
+
+set_target_properties(MyRPG PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}
     RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}

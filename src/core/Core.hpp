@@ -14,7 +14,7 @@ namespace MyRpg {
     class Core {
         public:
             Core();
-            ~Core();
+            ~Core() = default;
 
             bool windowIsOpen() const { return _window->isOpen(); };
 
@@ -22,7 +22,7 @@ namespace MyRpg {
             void update();
             void display();
 
-            void destroy();
+            void destroy() {};
 
             void displayCollisions();
 
@@ -32,7 +32,7 @@ namespace MyRpg {
             std::unique_ptr<IWindow> _window;
             std::unique_ptr<Map> _map;
             std::vector<std::unique_ptr<IEntity>> _entities;
-            
+
             std::size_t _playerIndex;
     };
 }

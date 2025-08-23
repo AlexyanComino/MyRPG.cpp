@@ -1,29 +1,15 @@
 
-#ifndef UTILS_HPP_
-#define UTILS_HPP_
-
-#include <SFML/Graphics.hpp>
+#ifndef ANIMATION_HPP_
+#define ANIMATION_HPP_
 
 #include "constants.hpp"
 #include "IEntity.hpp"
+#include "Clock.hpp"
+
+#include <string>
+#include <SFML/Graphics.hpp>
 
 namespace MyRpg {
-    class MyClock {
-        public:
-            MyClock() = default;
-            ~MyClock() = default;
-
-            const float getSeconds() const { return _seconds; };
-
-            void update();
-            void restart() { _clock.restart(); };
-
-        private:
-            sf::Clock _clock;
-            sf::Time _time;
-            float _seconds;
-    };
-
     class Animation {
         public:
             Animation(const std::string& _texturePath, const int width, const int height);
@@ -44,8 +30,8 @@ namespace MyRpg {
         private:
             sf::Texture _texture;
             sf::Sprite _sprite;
-            MyClock _clock;
+            Clock _clock;
     };
 }
 
-#endif /* !UTILS_HPP_ */
+#endif /* !ANIMATION_HPP_ */

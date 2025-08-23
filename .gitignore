@@ -44,8 +44,11 @@
 build/
 out/
 
-# CMake files
+# Cache files
 .cache/
 .idea/
 .vs/
 .vscode/
+
+# Binary files
+MyRPG
