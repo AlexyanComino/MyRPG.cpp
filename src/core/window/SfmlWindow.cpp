@@ -10,9 +10,9 @@
 
 namespace MyRpg {
     SfmlWindow::SfmlWindow() : AWindow(WIDTH, HEIGHT, 60, 1.0f, 2.0f),
-        _videoMode(_width, _height, 32),
+        _videoMode(_width, _height, 32U),
         _window(_videoMode, "The Blade of Eternity", sf::Style::Default),
-        _mousePos(0, 0), _clock(), _view(sf::FloatRect(0, 0, static_cast<float>(_width), static_cast<float>(_height))),
+        _mousePos(0.0f, 0.0f), _clock(), _view(sf::FloatRect(0.0f, 0.0f, static_cast<float>(_width), static_cast<float>(_height))),
         _viewPos(4850.0f, 8400.0f)
     {
         _window.setFramerateLimit(_framerate);
