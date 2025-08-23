@@ -12,4 +12,3 @@ namespace MyRpg {
             _animation.setSpriteScale(sf::Vector2f(-_scale, _scale));
     }
 }
-

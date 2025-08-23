@@ -6,12 +6,14 @@
 
 #include "IEntity.hpp"
 #include "Utils.hpp"
+#include "Collisions.hpp"
 
 namespace MyRpg {
+
     class AEntity : public IEntity {
         public:
             AEntity(const std::string& name, entityType type, entityColor color, entityFaction faction,
-                    entityState state, float initX, float initY, float scale, unsigned int max_health, 
+                    entityState state, float initX, float initY, float scale, unsigned int max_health,
                     int health, unsigned int attack, unsigned int defense, float speed,
                     unsigned int xp, unsigned int level, float attackCooldown,
                     const std::string& spritePath, int spriteWidth, int spriteHeight)
@@ -24,35 +26,40 @@ namespace MyRpg {
 
             virtual void update() = 0;
             virtual void display(sf::RenderWindow& window) = 0;
-            void handleEvents(float dt, Collisions collisionsMap) override { return; }; // Empty implementation
+            void handleEvents(float dt, Collisions collisionsMap, std::vector<std::unique_ptr<IEntity>>& entities) override { return; }; // Empty implementation
+
+            virtual void attack(float dt) = 0;
 
             virtual const sf::IntRect getHitbox() const = 0;
             virtual const sf::IntRect getAttackHitbox() const = 0;
             virtual const sf::IntRect getFeetHitbox() const = 0;
 
             virtual const sf::IntRect getNewFeetHitbox(const float x, const float y) const = 0;
-            
+
             void updateSpriteScale();
 
             // Getters
-            const std::string& getName() const { return _name; }
-            entityType getType() const { return _type; }
-            entityColor getColor() const { return _color; }
-            entityFaction getFaction() const { return _faction; }
-            entityState getState() const { return _state; }
+            const std::string& getName() const override { return _name; }
+            entityType getType() const override { return _type; }
+            entityColor getColor() const override { return _color; }
+            entityFaction getFaction() const override { return _faction; }
+            entityState getState() const override { return _state; }
             float getX() const { return _x; }
-            float getY() const { return _y; }
-            float getScale() const { return _scale; }
-            sideX getSideX() const { return _sideX; }
-            sideY getSideY() const { return _sideY; }
-            unsigned int getMaxHealth() const { return _max_health; }
-            int getHealth() const { return _health; }
-            unsigned int getAttack() const { return _attack; }
-            unsigned int getDefense() const { return _defense; }
-            unsigned int getXp() const { return _xp; }
-            unsigned int getLevel() const { return _level; }
-            float getSpeed() const { return _speed; }
-            float getAttackCooldown() const { return _attackCooldown; }
+            float getY() const override { return _y; }
+            float getScale() const override { return _scale; }
+            sideX getSideX() const override { return _sideX; }
+            sideY getSideY() const override { return _sideY; }
+            unsigned int getMaxHealth() const override { return _max_health; }
+            int getHealth() const override { return _health; }
+            unsigned int getAttack() const override { return _attack; }
+            unsigned int getDefense() const override { return _defense; }
+            unsigned int getXp() const override { return _xp; }
+            unsigned int getLevel() const override { return _level; }
+            float getSpeed() const override { return _speed; }
+            float getAttackCooldown() const override { return _attackCooldown; }
+
+            bool isInView() const override { return _inView; };
+            bool isAttacking() const override { return (_state == ATTACK || _state == ST_ATT); };
 
             // Setters
             void setX(float x) override { this->_x = x; }
@@ -67,6 +74,8 @@ namespace MyRpg {
             void setSpeed(float speed) override { this->_speed = speed; }
             void setAttackCooldown(float cooldown) override { this->_attackCooldown = cooldown; }
 
+            void setInView(bool isInView) override { _inView = isInView; };
+
         protected:
             const std::string _name;
             const entityType _type;
@@ -80,6 +89,8 @@ namespace MyRpg {
             float _y;
 
             float _scale;
+
+            bool _inView;
 
             sideX _sideX;
             sideY _sideY;

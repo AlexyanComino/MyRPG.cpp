@@ -14,11 +14,26 @@ namespace MyRpg {
             int health, unsigned int attack, unsigned int defense, float speed,
             unsigned int xp, unsigned int level, float attackCooldown) :
             T(name, color, faction, initX, initY, scale, max_health,
-              health, attack, defense, speed, xp, level, attackCooldown) {}
+              health, attack, defense, speed, xp, level, attackCooldown), firstAttack(true) {}
         ~Player() = default;
 
         void updateState()
         {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+                if (this->isAttacking() && this->_attackState > 2)
+                    this->_maxLineAttack = 1;
+                else if (!this->isAttacking()) {
+                    this->_state = ST_ATT;
+                    this->_lineAttack = 0;
+                    this->_maxLineAttack = 0;
+                    this->_firstAttack = true;
+                    this->_animation.rect.left = 0;
+                }
+                return;
+            }
+
+            if (this->isAttacking())
+                return;
             bool isWalking = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift);
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) ||
@@ -45,7 +60,7 @@ namespace MyRpg {
 
             return newX;
         };
-    
+
         float getNewY(float dt)
         {
             float speed = this->_speed;
@@ -67,26 +82,31 @@ namespace MyRpg {
                 newY += speed * dt;
             } else
                 this->_sideY = NONE;
-            
+
             return newY;
         };
 
-        void updatePos(float dt, Collisions collisionsMap)
+        void updatePos(float dt, Collisions collisionsMap, std::vector<std::unique_ptr<IEntity>>& entities)
         {
             float newX = getNewX(dt);
             float newY = getNewY(dt);
 
-            if (!collisionsMap.isIntRectCollidingWithMap(this->getNewFeetHitbox(newX, this->_y)))
+            if (!collisionsMap.isIntRectColliding(this->getNewFeetHitbox(newX, this->_y), this, entities))
                 this->_x = newX;
-            if (!collisionsMap.isIntRectCollidingWithMap(this->getNewFeetHitbox(this->_x, newY)))
+            if (!collisionsMap.isIntRectColliding(this->getNewFeetHitbox(this->_x, newY), this, entities))
                 this->_y = newY;
         };
 
-        void handleEvents(float dt, Collisions collisionsMap)
+        void handleEvents(float dt, Collisions collisionsMap, std::vector<std::unique_ptr<IEntity>>& entities)
         {
             this->updateState();
-            this->updatePos(dt, collisionsMap);
+
+            if (!this->isAttacking())
+                this->updatePos(dt, collisionsMap, entities);
         };
+
+        private:
+            bool firstAttack;
     };
 }
 

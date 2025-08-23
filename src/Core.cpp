@@ -8,8 +8,10 @@ namespace MyRpg {
         _map = std::make_unique<Map>("assets/map/ground/", "assets/map/foreground/", 7, "assets/map/collisions/res.coll");
 
         _entities.reserve(10);
-        _entities.push_back(std::make_unique<Player<Warrior>>("Warrior1", BLUE, BLUE_TEAM, 
+        _entities.push_back(std::make_unique<Player<Warrior>>("Warrior1", BLUE, BLUE_TEAM,
             7763.0f, 5919.0f, 1.0f, 100, 100, 10, 5, 200.0f, 0, 1, 1.0f));
+        _entities.push_back(std::make_unique<Player<Warrior>>("Warrior_RED", RED, RED_TEAM,
+            8000.0f, 5919.0f, 1.0f, 100, 100, 10, 5, 200.0f, 0, 1, 1.0f));
         _window->setViewCenter(_entities[0]->getX(), _entities[0]->getY());
 
         _playerIndex = 0;
@@ -29,12 +31,32 @@ namespace MyRpg {
             if (event.type == sf::Event::Closed)
                 _window->close();
         }
-        _entities[_playerIndex]->handleEvents(_window->getDt(), _map->getCollisions());
+        _entities[_playerIndex]->handleEvents(_window->getDt(), _map->getCollisions(), _entities);
         _window->setViewCenter(_entities[_playerIndex]->getX(), _entities[_playerIndex]->getY());
     }
 
     void Core::update()
     {
+        for (auto& entity : _entities) {
+            if (intRectIsInView(entity->getHitbox()))
+                entity->setInView(true);
+            else
+                entity->setInView(false);
+        }
+
+        for (std::size_t i = 0; i < _entities.size(); i++) {
+            for (std::size_t j = i + 1; j < _entities.size(); j++) {
+                if (i == j)
+                    continue;
+                if (_entities[i]->getY() > _entities[j]->getY()) {
+                    _playerIndex = (_playerIndex == i) ? j : (_playerIndex == j) ? i : _playerIndex;
+                    auto tmp = std::move(_entities[i]);
+                    _entities[i] = std::move(_entities[j]);
+                    _entities[j] = std::move(tmp);
+                }
+            }
+        }
+
         for (auto& entity : _entities)
             entity->update();
     }
@@ -42,15 +64,15 @@ namespace MyRpg {
     void Core::displayCollisions()
     {
         Collisions collisionsMap = _map->getCollisions();
-        std::size_t col = _entities[_playerIndex]->getX() / WIDTH;
-        std::size_t row = _entities[_playerIndex]->getY() / HEIGHT;
+        std::size_t col = static_cast<std::size_t>(_entities[_playerIndex]->getX() / WIDTH);
+        std::size_t row = static_cast<std::size_t>(_entities[_playerIndex]->getY() / HEIGHT);
 
         if (col >= collisionsMap.getNbColumns() || row >= collisionsMap.getNbRows())
             return;
-        
-        for (std::size_t i = 0;i < collisionsMap.regions[col][row].size; i++) {
-            collisionsMap.rect.left = collisionsMap.regions[col][row].positions[i].x;
-            collisionsMap.rect.top = collisionsMap.regions[col][row].positions[i].y;
+
+        for (std::size_t i = 0; i < collisionsMap.regions[col][row].size; i++) {
+            collisionsMap.rect.left = static_cast<int>(collisionsMap.regions[col][row].positions[i].x);
+            collisionsMap.rect.top = static_cast<int>(collisionsMap.regions[col][row].positions[i].y);
             if (!intRectIsInView(collisionsMap.rect))
                 continue;
             collisionsMap.shape.setPosition(sf::Vector2f(static_cast<float>(collisionsMap.rect.left), static_cast<float>(collisionsMap.rect.top)));

@@ -19,16 +19,27 @@ namespace MyRpg {
 
             void displayHitboxes(sf::RenderWindow& window);
 
+            void attack(float dt) override;
+
             const sf::IntRect getHitbox() const override;
             const sf::IntRect getFeetHitbox() const override;
             const sf::IntRect getAttackHitbox() const override;
 
             const sf::IntRect getNewFeetHitbox(const float x, const float y) const override;
-        private:
+
+        protected:
+            int _lineAttack;
+            int _maxLineAttack;
+
+            int _attackState;
+
+            bool _firstAttack;
+
             sf::RectangleShape _hitboxShape;
             sf::RectangleShape _attackHitboxShape;
             sf::RectangleShape _feetHitboxShape;
 
+        private:
             const std::string getTexturePathFromColor(const entityColor color) const;
     };
 }

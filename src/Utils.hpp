@@ -4,6 +4,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "constants.hpp"
+#include "IEntity.hpp"
+
 namespace MyRpg {
     class MyClock {
         public:
@@ -14,7 +17,7 @@ namespace MyRpg {
 
             void update();
             void restart() { _clock.restart(); };
-        
+
         private:
             sf::Clock _clock;
             sf::Time _time;
@@ -28,13 +31,15 @@ namespace MyRpg {
 
             void updateClock() { _clock.update(); };
             void animateLine(int offset, int width, float time);
+            void resetWarriorAttack(int& lineAttack, int& attackState, int& maxLineAttack, entityState& state);
+            void animateWarriorAttack(int& lineAttack, int& attackState, int& maxLineAttack, entityState& state);
 
             const sf::Sprite& getSprite() const { return _sprite; };
-            
+
 
             void setSpritePosition(const sf::Vector2f position) { _sprite.setPosition(position); };
             void setSpriteScale(const sf::Vector2f scale) { _sprite.setScale(scale); };
-            
+
             sf::IntRect rect;
         private:
             sf::Texture _texture;

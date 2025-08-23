@@ -1,6 +1,8 @@
 
 #include "Warrior.hpp"
 
+#include <iostream>
+
 namespace MyRpg {
 
     Warrior::Warrior(const std::string& name, entityColor color, entityFaction faction,
@@ -8,10 +10,11 @@ namespace MyRpg {
             int health, unsigned int attack, unsigned int defense, float speed,
             unsigned int xp, unsigned int level, float attackCooldown)
             : AEntity(name, WARRIOR, color, faction, IDLE, initX, initY, scale, max_health,
-                health, attack, defense, speed, xp, level, attackCooldown, 
+                health, attack, defense, speed, xp, level, attackCooldown,
                 getTexturePathFromColor(color), WARRIOR_WIDTH, WARRIOR_WIDTH),
-                      _hitboxShape(sf::RectangleShape()), _attackHitboxShape(sf::RectangleShape()),
-                      _feetHitboxShape(sf::RectangleShape())
+                    _hitboxShape(sf::RectangleShape()), _attackHitboxShape(sf::RectangleShape()),
+                    _feetHitboxShape(sf::RectangleShape()), _lineAttack(0), _maxLineAttack(0),
+                    _attackState(0), _firstAttack(true)
 
     {
         _hitboxShape.setFillColor(sf::Color::Transparent);
@@ -52,14 +55,20 @@ namespace MyRpg {
 
         if (_state == IDLE || _state == INTERACT) {
             _animation.rect.top = 0;
-            _animation.animateLine(WARRIOR_OFFSET, WARRIOR_WIDTH, 0.1);
+            _animation.animateLine(WARRIOR_OFFSET, WARRIOR_WIDTH, 0.1f);
         }
         if (_state == WALK || _state == RUN) {
             _animation.rect.top = WARRIOR_WIDTH;
-            _animation.animateLine(WARRIOR_OFFSET, WARRIOR_WIDTH, 0.1);
+            _animation.animateLine(WARRIOR_OFFSET, WARRIOR_WIDTH, 0.1f);
         }
-        // if (isAttacking)
-        //      animateAttack()
+        if (isAttacking()) {
+            if (_firstAttack) {
+                int multiplier = (_sideY == UP) ? 6 : (_sideY == DOWN) ? 4 : 2;
+                _animation.rect.top = WARRIOR_WIDTH * multiplier;
+                _firstAttack = false;
+            }
+            _animation.animateWarriorAttack(_lineAttack, _attackState, _maxLineAttack, _state);
+        }
     }
 
     void Warrior::display(sf::RenderWindow& window)
@@ -74,13 +83,18 @@ namespace MyRpg {
         sf::IntRect hitbox = getHitbox();
         sf::IntRect feetHitbox = getFeetHitbox();
         sf::IntRect attackHitbox = getAttackHitbox();
-    
-        _hitboxShape.setPosition(sf::Vector2f(hitbox.left, hitbox.top));
-        _feetHitboxShape.setPosition(sf::Vector2f(feetHitbox.left, feetHitbox.top));
-        _attackHitboxShape.setPosition(sf::Vector2f(attackHitbox.left, attackHitbox.top));
+
+        _hitboxShape.setPosition(sf::Vector2f(static_cast<float>(hitbox.left), static_cast<float>(hitbox.top)));
+        _feetHitboxShape.setPosition(sf::Vector2f(static_cast<float>(feetHitbox.left), static_cast<float>(feetHitbox.top)));
+        _attackHitboxShape.setPosition(sf::Vector2f(static_cast<float>(attackHitbox.left), static_cast<float>(attackHitbox.top)));
         window.draw(_hitboxShape);
         window.draw(_feetHitboxShape);
         // window.draw(_attackHitboxShape);
+    }
+
+    void Warrior::attack(float dt)
+    {
+
     }
 
     const sf::IntRect Warrior::getHitbox() const

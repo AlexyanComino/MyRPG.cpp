@@ -2,6 +2,8 @@
 #include "Collisions.hpp"
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 namespace MyRpg {
     Collisions::Collisions(const std::string& collisionsFilePath) :
@@ -36,15 +38,16 @@ namespace MyRpg {
 
         std::ifstream file(collisionsFilePath);
         std::string line;
-
         while (std::getline(file, line)) {
-            char* cstr = const_cast<char*>(line.c_str());
-            char* context = nullptr;
-            float x = static_cast<float>(std::atoi(strtok_s(cstr, " ", &context)) * TILE_SCALE + TILE_SIZE * 12 - TILE_SIZE / 2);
-            float y = static_cast<float>(std::atoi(strtok_s(nullptr, " ", &context)) * TILE_SCALE + TILE_SIZE / 2);
+            std::istringstream iss(line);
+            int xInt = 0, yInt = 0;
+            iss >> xInt >> yInt;
 
-            column = x / WIDTH;
-            row = y / HEIGHT;
+            float x = static_cast<float>(xInt * TILE_SCALE + TILE_SIZE * 12 - TILE_SIZE / 2);
+            float y = static_cast<float>(yInt * TILE_SCALE + TILE_SIZE / 2);
+
+            column = static_cast<std::size_t>(x) / WIDTH;
+            row = static_cast<std::size_t>(y) / HEIGHT;
             if (column > _columns || row > _rows)
                 continue;
             newRegions[column][row].positions.push_back(sf::Vector2f(x, y));
@@ -58,10 +61,10 @@ namespace MyRpg {
     {
         if (col < 0 || row < 0 || col > _columns || row > _rows)
             return false;
-        
+
         for (std::size_t i = 0; i < regions[col][row].size; i++) {
-            this->rect.left = regions[col][row].positions[i].x;
-            this->rect.top = regions[col][row].positions[i].y;
+            this->rect.left = static_cast<int>(regions[col][row].positions[i].x);
+            this->rect.top = static_cast<int>(regions[col][row].positions[i].y);
             if (hitbox.intersects(this->rect))
                 return true;
         }
@@ -88,6 +91,26 @@ namespace MyRpg {
             return true;
         this->rect.left = 0;
         this->rect.top = 0;
+        return false;
+    }
+
+    bool Collisions::isIntRectCollidingWithEntities(const sf::IntRect hitbox, const IEntity* caller, const std::vector<std::unique_ptr<IEntity>>& entities)
+    {
+        for (auto& entity : entities) {
+                if (!entity->isInView() || entity.get() == caller)
+                    continue;
+                if (hitbox.intersects(entity->getFeetHitbox()))
+                    return true;
+        }
+        return false;
+    }
+
+    bool Collisions::isIntRectColliding(const sf::IntRect hitbox, const IEntity* caller, const std::vector<std::unique_ptr<IEntity>>& entities)
+    {
+        if (isIntRectCollidingWithMap(hitbox))
+            return true;
+        if (isIntRectCollidingWithEntities(hitbox, caller, entities))
+            return true;
         return false;
     }
 }

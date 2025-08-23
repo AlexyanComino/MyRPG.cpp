@@ -4,9 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Collisions.hpp"
-
 namespace MyRpg {
+    class Collisions;
 
     typedef enum entityType {
         PAWN,
@@ -66,7 +65,9 @@ namespace MyRpg {
 
             virtual void update() = 0;
             virtual void display(sf::RenderWindow& window) = 0;
-            virtual void handleEvents(float dt, Collisions collisionsMap) = 0;
+            virtual void handleEvents(float dt, Collisions collisionsMap, std::vector<std::unique_ptr<IEntity>>& entities) = 0;
+
+            virtual void attack(float dt) = 0;
 
             virtual const sf::IntRect getHitbox() const = 0;
             virtual const sf::IntRect getAttackHitbox() const = 0;
@@ -94,6 +95,9 @@ namespace MyRpg {
             virtual float getSpeed() const = 0;
             virtual float getAttackCooldown() const = 0;
 
+            virtual bool isInView() const = 0;
+            virtual bool isAttacking() const = 0;
+
             // Setters
             virtual void setX(float x) = 0;
             virtual void setY(float y) = 0;
@@ -106,6 +110,8 @@ namespace MyRpg {
             virtual void setDefense(unsigned int defense) = 0;
             virtual void setSpeed(float speed) = 0;
             virtual void setAttackCooldown(float cooldown) = 0;
+
+            virtual void setInView(bool isInView) = 0;
 
         protected:
         private:

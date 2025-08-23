@@ -5,10 +5,15 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <fstream>
+#include <string>
+#include <cstring>
+#include <cstdlib>
 
 #include "constants.hpp"
+#include "IEntity.hpp"
 
 namespace MyRpg {
+
     typedef struct region_s {
         std::size_t size = 0;
         std::vector<sf::Vector2f> positions;
@@ -23,7 +28,9 @@ namespace MyRpg {
             const std::size_t getNbColumns() const { return _columns; };
             const std::size_t getNbRows() const { return _rows; };
 
+            bool isIntRectCollidingWithEntities(const sf::IntRect hitbox, const IEntity* caller, const std::vector<std::unique_ptr<IEntity>>& entities);
             bool isIntRectCollidingWithMap(const sf::IntRect hitbox);
+            bool isIntRectColliding(const sf::IntRect hitbox, const IEntity* caller, const std::vector<std::unique_ptr<IEntity>>& entities);
 
             sf::IntRect rect;
             sf::RectangleShape shape;
