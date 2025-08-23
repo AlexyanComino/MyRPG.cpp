@@ -6,6 +6,7 @@
 #include "SfmlWindow.hpp"
 #include "Warrior.hpp"
 #include "Player.hpp"
+#include "Menu.hpp"
 
 #include <memory>
 #include <vector>
@@ -32,6 +33,7 @@ namespace MyRpg {
             std::unique_ptr<IWindow> _window;
             std::unique_ptr<Map> _map;
             std::vector<std::unique_ptr<IEntity>> _entities;
+            std::unique_ptr<MenuManager> _menuManager;
             
             std::size_t _playerIndex;
     };
