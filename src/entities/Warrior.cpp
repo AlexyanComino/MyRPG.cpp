@@ -33,14 +33,14 @@ namespace MyRpg {
 
     const std::string Warrior::getTexturePathFromColor(const entityColor color) const
     {
-        std::vector<std::string> texturePaths = {
-            "assets/Entities/Warriors/Warrior_Blue.png",
-            "assets/Entities/Warriors/Warrior_Purple.png",
-            "assets/Entities/Warriors/Warrior_Red.png",
-            "assets/Entities/Warriors/Warrior_Yellow.png",
-            "assets/Entities/Warriors/Warrior_Black.png",
-        };
-        return texturePaths[color];
+        switch (color) {
+            case BLUE: return "assets/entities/warrior/Warrior_Blue.png";
+            case PURPLE: return "assets/entities/warrior/Warrior_Purple.png";
+            case RED: return "assets/entities/warrior/Warrior_Red.png";
+            case YELLOW: return "assets/entities/warrior/Warrior_Yellow.png";
+            case BLACK: return "assets/entities/warrior/Warrior_Black.png";
+            default: return "assets/entities/warrior/Warrior_Blue.png";
+        }
     }
 
     void Warrior::update()

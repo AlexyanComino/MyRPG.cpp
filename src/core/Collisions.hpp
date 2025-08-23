@@ -2,9 +2,6 @@
 #ifndef COLLISIONS_HPP_
 #define COLLISIONS_HPP_
 
-#include "constants.hpp"
-#include "IEntity.hpp"
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <fstream>
@@ -12,6 +9,9 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
+
+#include "constants.hpp"
+#include "IEntity.hpp"
 
 namespace MyRpg {
 

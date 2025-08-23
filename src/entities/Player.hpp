@@ -2,11 +2,10 @@
 #ifndef PLAYER_HPP_
 #define PLAYER_HPP_
 
-#include "AEntity.hpp"
-
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
+#include "AEntity.hpp"
 
 namespace MyRpg {
     template<typename T>

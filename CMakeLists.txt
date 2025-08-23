@@ -29,6 +29,7 @@ add_executable(MyRPG
     src/core/Collisions.cpp
     src/entities/AEntity.cpp
     src/entities/Warrior.cpp
+    src/entities/Torch.cpp
     src/common/Animation.cpp
     src/common/Clock.cpp
 )
