@@ -2,6 +2,10 @@
 #include "Collisions.hpp"
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <cstring>
+#include <cstdlib>
 
 namespace MyRpg {
     Collisions::Collisions(const std::string& collisionsFilePath) :
@@ -40,8 +44,8 @@ namespace MyRpg {
         while (std::getline(file, line)) {
             char* cstr = const_cast<char*>(line.c_str());
             char* context = nullptr;
-            float x = static_cast<float>(std::atoi(strtok_s(cstr, " ", &context)) * TILE_SCALE + TILE_SIZE * 12 - TILE_SIZE / 2);
-            float y = static_cast<float>(std::atoi(strtok_s(nullptr, " ", &context)) * TILE_SCALE + TILE_SIZE / 2);
+            float x = static_cast<float>(std::atoi(strtok_r(cstr, " ", &context)) * TILE_SCALE + TILE_SIZE * 12 - TILE_SIZE / 2);
+            float y = static_cast<float>(std::atoi(strtok_r(nullptr, " ", &context)) * TILE_SCALE + TILE_SIZE / 2);
 
             column = x / WIDTH;
             row = y / HEIGHT;

@@ -3,6 +3,7 @@
 #define PLAYER_HPP_
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
 #include "AEntity.hpp"
 
 namespace MyRpg {

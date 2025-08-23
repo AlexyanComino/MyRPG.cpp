@@ -102,6 +102,13 @@
 // #define DAMAGE_COLOR_PURPLE sfColor_fromRGB(183, 133, 255)
 // #define DAMAGE_COLOR_GREEN sfColor_fromRGB(53, 255, 53)
 // #define DAMAGE_COLOR_BAM sfWhite
+
+#define TILE_SCALE 2.1
+#define TILE_SIZE 32 * TILE_SCALE
+
+// Map
+#define MAP_HEIGHT 13301
+#define MAP_WIDTH 13971
 // #define DAMAGE_COLOR_CRITICAL sfColor_fromRGB(255, 61, 30)
 // #define DAMAGE_COLOR_FIRE sfColor_fromRGB(255, 157, 59)
 // #define DAMAGE_COLOR_POISON sfColor_fromRGB(94, 209, 43)
