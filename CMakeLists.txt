@@ -32,6 +32,11 @@ add_executable(MyRPG
     src/entities/Torch.cpp
     src/common/Animation.cpp
     src/common/Clock.cpp
+    src/interface/Button.cpp
+    src/interface/menu/Menu.cpp
+    src/interface/menu/MainMenu.cpp
+    src/interface/menu/PauseMenu.cpp
+    src/interface/menu/MenuManager.cpp
 )
 
 target_include_directories(MyRPG PRIVATE
@@ -40,6 +45,8 @@ target_include_directories(MyRPG PRIVATE
     src/core/window/
     src/entities/
     src/common/
+    src/interface/
+    src/interface/menu/
 )
 
 target_compile_features(MyRPG PRIVATE cxx_std_20)

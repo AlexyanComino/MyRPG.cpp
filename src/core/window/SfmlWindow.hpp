@@ -2,10 +2,10 @@
 #ifndef SFMLWINDOW_HPP_
 #define SFMLWINDOW_HPP_
 
+#include <SFML/Graphics.hpp>
+
 #include "AWindow.hpp"
 #include "constants.hpp"
-
-#include <SFML/Graphics.hpp>
 
 namespace MyRpg {
     class SfmlWindow : public AWindow {
@@ -26,7 +26,10 @@ namespace MyRpg {
             void draw(const sf::Drawable& sprite) override;
             bool pollEvent(sf::Event& event) override;
 
+            void setZoom(float zoom) override;
+
             sf::Clock& getClock() { return _clock; };
+            sf::View& getView() { return _view; };
 
         protected:
         private:
@@ -35,7 +38,7 @@ namespace MyRpg {
             sf::Vector2f _mousePos;
             sf::Clock _clock;
             sf::View _view;
-            sf::Vector2f _viewPos;   
+            sf::Vector2f _viewPos;
     };
 }
 

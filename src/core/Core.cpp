@@ -6,13 +6,14 @@ namespace MyRpg {
     {
         _window = std::make_unique<SfmlWindow>();
         _map = std::make_unique<Map>("assets/map/ground/", "assets/map/foreground/", 7, "assets/map/collisions/res.coll");
+        _menuManager = std::make_unique<MenuManager>();
 
         _entities.reserve(10);
-        _entities.push_back(std::make_unique<Player<Warrior>>("Warrior1", BLUE, BLUE_TEAM,
+        _entities.push_back(std::make_unique<Player<Torch>>("Player", BLUE, BLUE_TEAM,
             7763.0f, 5919.0f, 1.0f, 100, 100, 10, 5, 200.0f, 0, 1, 1.0f));
-        _entities.push_back(std::make_unique<Player<Warrior>>("Warrior_RED", RED, RED_TEAM,
+        _entities.push_back(std::make_unique<Warrior>("Warrior_RED", RED, RED_TEAM,
             8000.0f, 5919.0f, 1.0f, 100, 100, 10, 5, 200.0f, 0, 1, 1.0f));
-        _window->setViewCenter(_entities[0]->getX(), _entities[0]->getY());
+        // _window->setViewCenter(_entities[0]->getX(), _entities[0]->getY());
 
         _playerIndex = 0;
     }
@@ -23,16 +24,40 @@ namespace MyRpg {
         _window->getClock().restart();
 
         sf::Event event;
+        bool mousePressed = false;
+        bool mouseReleased = false;
+
         while (_window->pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 _window->close();
+            if (event.type == sf::Event::MouseButtonPressed)
+                mousePressed = true;
+            if (event.type == sf::Event::MouseButtonReleased)
+                mouseReleased = true;
+
+            _menuManager->handleEvent(event);
         }
-        _entities[_playerIndex]->handleEvents(_window->getDt(), _map->getCollisions(), _entities);
-        _window->setViewCenter(_entities[_playerIndex]->getX(), _entities[_playerIndex]->getY());
+
+        sf::Vector2f mouseWorldPos = _window->getWindow().mapPixelToCoords(sf::Mouse::getPosition(_window->getWindow()));
+
+        _menuManager->update(mouseWorldPos, mousePressed, mouseReleased, _window->getView().getCenter());
+
+        if (_menuManager->getGameState() == GAME) {
+            _entities[_playerIndex]->handleEvents(_window->getDt(), _map->getCollisions(), _entities);
+            _window->setViewCenter(_entities[_playerIndex]->getX(), _entities[_playerIndex]->getY());
+        }
     }
 
     void Core::update()
     {
+        if (_menuManager->getGameState() == MAIN_MENU) {
+            _window->setZoom(2.0f);
+            _window->setViewCenter(4850.0f, 8400.0f);
+        }
+        if (_menuManager->getGameState() != GAME)
+            return;
+
+        _window->setZoom(0.5f);
         for (auto& entity : _entities) {
             if (intRectIsInView(entity->getHitbox()))
                 entity->setInView(true);
@@ -82,18 +107,23 @@ namespace MyRpg {
     {
         _window->clear();
 
-        _window->resetView();
-        for (int i = 0; i < _map->getSize(); i++)
-            _window->draw(_map->getGroundSpriteAt(i));
+        gameState state = _menuManager->getGameState();
+        if (state == GAME || state == PAUSE || state == MAIN_MENU) {
+            _window->resetView();
+            for (int i = 0; i < _map->getSize(); i++)
+                _window->draw(_map->getGroundSpriteAt(i));
 
-        for (auto& entity : _entities) {
-            entity->display(_window->getWindow());
+            for (auto& entity : _entities) {
+                entity->display(_window->getWindow());
+            }
+
+            for (int i = 0; i < _map->getSize(); i++) {
+                _window->draw(_map->getForegroundSprites()[i]);
+            }
+
+            displayCollisions();
         }
-
-        for (int i = 0; i < _map->getSize(); i++)
-            _window->draw(_map->getForegroundSprites()[i]);
-
-        displayCollisions();
+        _menuManager->display(_window->getWindow());
 
         _window->display();
     }

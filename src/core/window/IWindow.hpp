@@ -29,6 +29,7 @@ namespace MyRpg {
             virtual const float getZoom() const = 0;
 
             virtual sf::Clock& getClock() = 0;
+            virtual sf::View& getView() = 0;
 
             // Setters
             virtual void setDt(float dt) = 0;

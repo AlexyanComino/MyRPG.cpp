@@ -33,16 +33,17 @@ namespace MyRpg {
             const float getZoom() const { return _zoom; };
 
             virtual sf::Clock& getClock() = 0;
+            virtual sf::View& getView() = 0;
 
             // Setters
             void setDt(float dt) { _dt = dt; };
-            void setZoom(float zoom) { _zoom = zoom; };
+            virtual void setZoom(float zoom) = 0;
 
         protected:
                 const unsigned int _width;
                 const unsigned int _height;
                 const unsigned int _framerate;
-                
+
                 float _dt;
                 float _zoom;
         private:

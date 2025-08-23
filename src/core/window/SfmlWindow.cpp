@@ -6,15 +6,20 @@
 */
 
 #include "SfmlWindow.hpp"
+#include <iostream>
 
 namespace MyRpg {
-    SfmlWindow::SfmlWindow() : AWindow(WIDTH, HEIGHT, 60, 1, 2),
+    SfmlWindow::SfmlWindow() : AWindow(WIDTH, HEIGHT, 60, 1.0f, 2.0f),
         _videoMode(_width, _height, 32),
         _window(_videoMode, "The Blade of Eternity", sf::Style::Default),
         _mousePos(0, 0), _clock(), _view(sf::FloatRect(0, 0, static_cast<float>(_width), static_cast<float>(_height))),
-        _viewPos(4850, 8400)
+        _viewPos(4850.0f, 8400.0f)
     {
         _window.setFramerateLimit(_framerate);
+
+        _view.setCenter(_viewPos);
+        _view.zoom(_zoom);
+        _window.setView(_view);
     }
 
     SfmlWindow::~SfmlWindow()
@@ -36,7 +41,17 @@ namespace MyRpg {
     void SfmlWindow::setViewCenter(float x, float y)
     {
         _view.setCenter(x, y);
+        _viewPos = sf::Vector2f(x, y);
         // _window.setView(_view);
+    }
+
+    void SfmlWindow::setZoom(float zoom)
+    {
+        if (_zoom == zoom)
+            return;
+
+        _zoom = zoom;
+        _view.zoom(zoom);
     }
 
     void SfmlWindow::draw(const sf::Drawable& object)
