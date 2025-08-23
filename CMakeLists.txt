@@ -28,6 +28,10 @@ add_executable(main
     src/Map.cpp
     src/AEntity.cpp
     src/Warrior.cpp
+    src/Pawn.cpp
+    src/Archer.cpp
+    src/Torch.cpp
+    src/TNT.cpp
     src/Utils.cpp
     src/Collisions.cpp
 )

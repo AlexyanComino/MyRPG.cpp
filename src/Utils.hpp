@@ -30,6 +30,7 @@ namespace MyRpg {
             void animateLine(int offset, int width, float time);
 
             const sf::Sprite& getSprite() const { return _sprite; };
+            sf::Sprite& getSprite() { return _sprite; };
             
 
             void setSpritePosition(const sf::Vector2f position) { _sprite.setPosition(position); };
