@@ -3,6 +3,7 @@
 #define IENTITY_HPP_
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 namespace MyRpg {
     class Collisions;
