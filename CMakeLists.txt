@@ -35,6 +35,7 @@ add_executable(main
     src/Utils.cpp
     src/Collisions.cpp
     src/Menu.cpp
+    src/Inventory.cpp
 )
 
 target_compile_features(main PRIVATE cxx_std_20)

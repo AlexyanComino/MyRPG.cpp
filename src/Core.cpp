@@ -7,6 +7,8 @@ namespace MyRpg {
         _window = std::make_unique<SfmlWindow>();
         _map = std::make_unique<Map>("assets/map/ground/", "assets/map/foreground/", 7, "assets/map/collisions/res.coll");
         _menuManager = std::make_unique<MenuManager>();
+        _inventory = std::make_unique<Inventory>();
+        _playerStatus = std::make_unique<PlayerStatus>();
 
         _entities.reserve(10);
         _entities.push_back(std::make_unique<Player<Warrior>>("Warrior1", BLUE, BLUE_TEAM, 
@@ -14,6 +16,16 @@ namespace MyRpg {
         _window->setViewCenter(_entities[0]->getX(), _entities[0]->getY());
 
         _playerIndex = 0;
+        
+        // Add some test items to inventory
+        _inventory->addGold(100);
+        auto testSword = std::make_unique<Weapon>("Iron Sword", "A basic iron sword", 15, 1.2f);
+        testSword->setTexture("assets/items/weapons/iron_sword.png");
+        _inventory->addItem(std::move(testSword));
+        
+        auto testPotion = std::make_unique<Potion>("Health Potion", "Restores 50 HP", 50);
+        testPotion->setTexture("assets/items/potions/health_potion.png");
+        _inventory->addItem(std::move(testPotion));
     }
 
     Core::~Core()
@@ -38,6 +50,21 @@ namespace MyRpg {
             if (event.type == sf::Event::MouseButtonReleased)
                 mouseReleased = true;
                 
+            // Handle inventory toggle
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::I) {
+                    if (_menuManager->getGameState() == GAME) {
+                        _inventory->toggle();
+                        if (_inventory->isOpen()) {
+                            _menuManager->setGameState(INVENTORY);
+                        }
+                    } else if (_menuManager->getGameState() == INVENTORY) {
+                        _inventory->close();
+                        _menuManager->setGameState(GAME);
+                    }
+                }
+            }
+                
             _menuManager->handleEvent(event);
         }
         
@@ -47,6 +74,11 @@ namespace MyRpg {
         
         // Update menu system
         _menuManager->update(mouseWorldPos, mousePressed, mouseReleased);
+        
+        // Update inventory if open
+        if (_menuManager->getGameState() == INVENTORY) {
+            _inventory->update(mouseWorldPos, mousePressed);
+        }
         
         // Only handle game events when in game state
         if (_menuManager->getGameState() == GAME) {
@@ -89,8 +121,8 @@ namespace MyRpg {
     {
         _window->clear();
 
-        // Render game world when in game or pause state
-        if (_menuManager->getGameState() == GAME || _menuManager->getGameState() == PAUSE) {
+        // Render game world when in game, pause, or inventory state
+        if (_menuManager->getGameState() == GAME || _menuManager->getGameState() == PAUSE || _menuManager->getGameState() == INVENTORY) {
             _window->resetView();
             for (int i = 0; i < _map->getSize(); i++)
                 _window->draw(_map->getGroundSpriteAt(i));
@@ -107,6 +139,12 @@ namespace MyRpg {
         
         // Always render menu system on top
         _menuManager->display(_window->getWindow());
+        
+        // Render inventory if open
+        if (_menuManager->getGameState() == INVENTORY) {
+            _inventory->display(_window->getWindow());
+            _playerStatus->display(_window->getWindow());
+        }
 
         _window->display();
     }

@@ -7,6 +7,7 @@
 #include "Warrior.hpp"
 #include "Player.hpp"
 #include "Menu.hpp"
+#include "Inventory.hpp"
 
 #include <memory>
 #include <vector>
@@ -34,6 +35,8 @@ namespace MyRpg {
             std::unique_ptr<Map> _map;
             std::vector<std::unique_ptr<IEntity>> _entities;
             std::unique_ptr<MenuManager> _menuManager;
+            std::unique_ptr<Inventory> _inventory;
+            std::unique_ptr<PlayerStatus> _playerStatus;
             
             std::size_t _playerIndex;
     };
