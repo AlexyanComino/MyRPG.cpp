@@ -47,7 +47,7 @@ namespace MyRpg {
 
         float getNewX(float dt)
         {
-            float speed = this->_speed;
+            float speed = (this->_state == WALK) ? this->_speed / 2 : this->_speed;
             float newX = this->_x;
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
@@ -65,7 +65,7 @@ namespace MyRpg {
 
         float getNewY(float dt)
         {
-            float speed = this->_speed;
+            float speed = (this->_state == WALK) ? this->_speed / 2 : this->_speed;
             float newY = this->_y;
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
