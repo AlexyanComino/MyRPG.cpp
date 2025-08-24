@@ -35,8 +35,8 @@ namespace MyRpg {
             bool isClicked() const { return _state == CLICKED; }
             bool isHovered() const { return _state == HOVERED; }
 
-            void setPosition(sf::Vector2f position);
-            void setSize(sf::Vector2f size);
+            void setPosition(const sf::Vector2f& position);
+            void setSize(const sf::Vector2f& size);
             void setText(const std::string& text);
 
         private:

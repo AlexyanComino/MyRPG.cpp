@@ -37,6 +37,13 @@ add_executable(MyRPG
     src/interface/menu/MainMenu.cpp
     src/interface/menu/PauseMenu.cpp
     src/interface/menu/MenuManager.cpp
+    src/inventory/Inventory.cpp
+    src/inventory/InventorySlot.cpp
+    src/inventory/PlayerStatus.cpp
+    src/inventory/items/Item.cpp
+    src/inventory/items/Weapon.cpp
+    src/inventory/items/Armor.cpp
+    src/inventory/items/Potion.cpp
 )
 
 target_include_directories(MyRPG PRIVATE
@@ -47,6 +54,8 @@ target_include_directories(MyRPG PRIVATE
     src/common/
     src/interface/
     src/interface/menu/
+    src/inventory/
+    src/inventory/items/
 )
 
 target_compile_features(MyRPG PRIVATE cxx_std_20)

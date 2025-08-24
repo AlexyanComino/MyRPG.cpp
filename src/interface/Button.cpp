@@ -63,13 +63,13 @@ namespace MyRpg {
         window.draw(_text);
     }
 
-    void Button::setPosition(sf::Vector2f position)
+    void Button::setPosition(const sf::Vector2f& position)
     {
         _background.setPosition(position);
         _text.setPosition(position);
     }
 
-    void Button::setSize(sf::Vector2f size)
+    void Button::setSize(const sf::Vector2f& size)
     {
         _size = size;
         _background.setSize(_size);

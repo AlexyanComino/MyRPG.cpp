@@ -7,13 +7,24 @@ namespace MyRpg {
         _window = std::make_unique<SfmlWindow>();
         _map = std::make_unique<Map>("assets/map/ground/", "assets/map/foreground/", 7, "assets/map/collisions/res.coll");
         _menuManager = std::make_unique<MenuManager>();
+        _inventory = std::make_unique<Inventory>();
+        _playerStatus = std::make_unique<PlayerStatus>();
 
+        // test entities
         _entities.reserve(10);
         _entities.push_back(std::make_unique<Player<Torch>>("Player", BLUE, BLUE_TEAM,
             7763.0f, 5919.0f, 1.0f, 100, 100, 10, 5, 200.0f, 0, 1, 1.0f));
         _entities.push_back(std::make_unique<Warrior>("Warrior_RED", RED, RED_TEAM,
             8000.0f, 5919.0f, 1.0f, 100, 100, 10, 5, 200.0f, 0, 1, 1.0f));
         // _window->setViewCenter(_entities[0]->getX(), _entities[0]->getY());
+
+        // test inventory
+        _inventory->addGold(100);
+        auto testSword = std::make_unique<Weapon>("Iron Sword", "A basic iron sword", "assets/item/Weapon & Tool/Iron Sword.png", COMMON, 15);
+        _inventory->addItem(std::move(testSword));
+
+        auto testPotion = std::make_unique<Potion>("Health Potion", "Restores 50 HP", "assets/item/Potion/Blue Potion.png", 50);
+        _inventory->addItem(std::move(testPotion));
 
         _playerIndex = 0;
     }
@@ -35,12 +46,28 @@ namespace MyRpg {
             if (event.type == sf::Event::MouseButtonReleased)
                 mouseReleased = true;
 
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I) {
+                if (_menuManager->getGameState() == GAME) {
+                    _inventory->toggle();
+                    if (_inventory->isOpen()) {
+                        _menuManager->setGameState(INVENTORY);
+                    }
+                } else if (_menuManager->getGameState() == INVENTORY) {
+                    _inventory->close();
+                    _menuManager->setGameState(GAME);
+                }
+            }
+
             _menuManager->handleEvent(event);
         }
 
         sf::Vector2f mouseWorldPos = _window->getWindow().mapPixelToCoords(sf::Mouse::getPosition(_window->getWindow()));
 
         _menuManager->update(mouseWorldPos, mousePressed, mouseReleased, _window->getView().getCenter());
+
+        if (_menuManager->getGameState() == INVENTORY) {
+            _inventory->update(mouseWorldPos, mousePressed, _window->getView().getCenter());
+        }
 
         if (_menuManager->getGameState() == GAME) {
             _entities[_playerIndex]->handleEvents(_window->getDt(), _map->getCollisions(), _entities);
@@ -108,7 +135,7 @@ namespace MyRpg {
         _window->clear();
 
         gameState state = _menuManager->getGameState();
-        if (state == GAME || state == PAUSE || state == MAIN_MENU) {
+        if (state == GAME || state == PAUSE || state == MAIN_MENU || _menuManager->getGameState() == INVENTORY) {
             _window->resetView();
             for (int i = 0; i < _map->getSize(); i++)
                 _window->draw(_map->getGroundSpriteAt(i));
@@ -124,6 +151,11 @@ namespace MyRpg {
             displayCollisions();
         }
         _menuManager->display(_window->getWindow());
+
+        if (_menuManager->getGameState() == INVENTORY) {
+            _inventory->display(_window->getWindow());
+            _playerStatus->display(_window->getWindow());
+        }
 
         _window->display();
     }

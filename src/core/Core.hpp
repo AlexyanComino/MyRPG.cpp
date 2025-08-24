@@ -11,6 +11,8 @@
 #include "Warrior.hpp"
 #include "Player.hpp"
 #include "MenuManager.hpp"
+#include "Inventory.hpp"
+#include "PlayerStatus.hpp"
 
 namespace MyRpg {
     class Core {
@@ -34,8 +36,9 @@ namespace MyRpg {
             std::unique_ptr<IWindow> _window;
             std::unique_ptr<Map> _map;
             std::unique_ptr<MenuManager> _menuManager;
+            std::unique_ptr<Inventory> _inventory;
+            std::unique_ptr<PlayerStatus> _playerStatus;
             std::vector<std::unique_ptr<IEntity>> _entities;
-
             std::size_t _playerIndex;
     };
 }
