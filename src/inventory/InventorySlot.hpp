@@ -27,7 +27,7 @@ namespace MyRpg {
             void setSelected(bool selected) { _selected = selected; }
             void setClicked(bool clicked) { _clicked = clicked; }
 
-            void update(const sf::Vector2f& mousePos, bool clicked, const sf::Vector2f& position);
+            void update(const sf::Vector2f& mousePos, bool clicked, bool hasSelected, const sf::Vector2f& position);
             void display(sf::RenderWindow& window);
 
         private:

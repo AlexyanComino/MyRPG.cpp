@@ -45,12 +45,12 @@ namespace MyRpg {
         _position = position;
     }
 
-    void InventorySlot::update(const sf::Vector2f& mousePos, bool clicked, const sf::Vector2f& position)
+    void InventorySlot::update(const sf::Vector2f& mousePos, bool clicked, bool hasSelected, const sf::Vector2f& position)
     {
         sf::FloatRect bounds = _background.getGlobalBounds();
         _highlighted = bounds.contains(mousePos);
 
-        if (_highlighted && clicked) {
+        if (_highlighted && clicked && !hasSelected) {
             _selected = !_selected;
         }
 
@@ -61,11 +61,11 @@ namespace MyRpg {
     {
         window.draw(_background);
 
-        if (_highlighted || _selected) {
+        if (_highlighted) {
             window.draw(_highlight);
         }
 
-        if (_item) {
+        if (_item && !_selected) {
             window.draw(_item->getSprite());
         }
     }

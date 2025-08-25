@@ -2,7 +2,7 @@
 #include "Inventory.hpp"
 
 namespace MyRpg {
-    Inventory::Inventory() : _isOpen(false), _gold(0), _selectedItem(nullptr)
+    Inventory::Inventory() : _isOpen(false), _gold(0), _selectedItem(nullptr), _selectedSlot(nullptr)
     {
         _slots.reserve(TOTAL_SLOTS);
         for (int i = 0; i < TOTAL_SLOTS; ++i) {
@@ -106,21 +106,35 @@ namespace MyRpg {
         return true;
     }
 
-    void Inventory::update(const sf::Vector2f& mousePos, bool clicked, const sf::Vector2f& position)
+    void Inventory::update(const sf::Vector2f& mousePos, bool clicked, bool released, const sf::Vector2f& position)
     {
         if (!_isOpen)
             return;
 
-        _selectedItem = nullptr;
-
         for (auto& slot : _slots) {
-            slot->update(mousePos, clicked, position);
-            if (slot->isSelected() && slot->getItem()) {
+            slot->update(mousePos, clicked, _selectedItem != nullptr, position);
+            if (slot->isSelected() && !_selectedItem && slot->getItem()) {
                 _selectedItem = slot->getItem();
+                _selectedSlot = slot.get();
+            }
+            if (slot->isHighlighted()&& _selectedItem && released) {
+                if (!slot->getItem()) {
+                    slot->setItem(_selectedSlot->takeItem());
+                } else {
+                    switchItems(_selectedSlot, slot.get());
+                }
+                resetSelected();
             }
         }
 
+        if (_selectedItem && released) {
+            resetSelected();
+        }
+
         updateDescription(position);
+
+        if (_selectedItem)
+            _selectedItem->getSprite().setPosition(mousePos);
 
         _background.setPosition(position + _backgroundPosition);
         _titleText.setPosition(position + _titleTextPosition);
@@ -129,7 +143,8 @@ namespace MyRpg {
 
     void Inventory::display(sf::RenderWindow& window)
     {
-        if (!_isOpen) return;
+        if (!_isOpen)
+            return;
 
         window.draw(_background);
         window.draw(_titleText);
@@ -142,6 +157,7 @@ namespace MyRpg {
         // Draw description area
         window.draw(_descriptionBackground);
         if (_selectedItem) {
+            window.draw(_selectedItem->getSprite());
             window.draw(_descriptionText);
         }
     }
@@ -206,5 +222,21 @@ namespace MyRpg {
             }
         }
         return -1;
+    }
+
+    void Inventory::switchItems(InventorySlot* slot1, InventorySlot* slot2)
+    {
+        std::unique_ptr<Item> item = slot1->takeItem();
+
+        slot1->setItem(slot2->takeItem());
+        slot2->setItem(std::move(item));
+    }
+
+    void Inventory::resetSelected()
+    {
+        _selectedSlot->setSelected(false);
+        _selectedSlot->setHighlighted(false);
+        _selectedItem = nullptr;
+        _selectedSlot = nullptr;
     }
 }

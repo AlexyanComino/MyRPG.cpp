@@ -34,7 +34,7 @@ namespace MyRpg {
             void close() { _isOpen = false; }
             void toggle() { _isOpen = !_isOpen; }
 
-            void update(const sf::Vector2f& mousePos, bool clicked, const sf::Vector2f& position);
+            void update(const sf::Vector2f& mousePos, bool clicked, bool released, const sf::Vector2f& position);
             void display(sf::RenderWindow& window);
 
             // Find item by name or type
@@ -57,6 +57,7 @@ namespace MyRpg {
 
             // Selected item for description
             Item* _selectedItem;
+            InventorySlot* _selectedSlot;
             sf::RectangleShape _descriptionBackground;
             sf::Vector2f _descriptionBackgroundPosition;
             sf::Text _descriptionText;
@@ -66,6 +67,9 @@ namespace MyRpg {
             void updateGoldDisplay();
             void updateDescription(const sf::Vector2f& position);
             int findEmptySlot() const;
+
+            void switchItems(InventorySlot* slot1, InventorySlot* slot2);
+            void resetSelected();
     };
 }
 

@@ -66,7 +66,7 @@ namespace MyRpg {
         _menuManager->update(mouseWorldPos, mousePressed, mouseReleased, _window->getView().getCenter());
 
         if (_menuManager->getGameState() == INVENTORY) {
-            _inventory->update(mouseWorldPos, mousePressed, _window->getView().getCenter());
+            _inventory->update(mouseWorldPos, mousePressed, mouseReleased, _window->getView().getCenter());
         }
 
         if (_menuManager->getGameState() == GAME) {
